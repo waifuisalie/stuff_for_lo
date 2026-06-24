@@ -1,0 +1,9 @@
+# Caso 4: problema inviavel. As restricoes pedem x1+x2 <= 2 e x1+x2 >= 6,
+# o que e impossivel ao mesmo tempo.
+# Resposta esperada (verificada a mao):
+#   STATUS = INVIAVEL  (Fase 1 termina com soma das artificiais > 0)
+max
+2 2
+1 1
+1 1 <= 2
+1 1 >= 6

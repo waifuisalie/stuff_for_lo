@@ -1,0 +1,9 @@
+# Caso 3: problema sem fronteira (ilimitado). x2 pode crescer sem limite
+# (aparece com coeficiente <= 0 nas restricoes) enquanto melhora Z.
+# Resposta esperada (verificada a mao):
+#   STATUS = SEM FRONTEIRA / ILIMITADO  (a coluna de entrada nao tem razao positiva)
+max
+2 2
+1 1
+1 -1 <= 4
+1 0 <= 10

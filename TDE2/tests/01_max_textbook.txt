@@ -1,0 +1,10 @@
+# Caso 1: maximizacao classica (problema "Wyndor"), todas restricoes <=.
+# Resposta esperada (verificada a mao):
+#   Z otimo = 36,  x1 = 2,  x2 = 6
+#   2 iteracoes na Fase 2 (nao usa Fase 1).
+max
+2 3
+3 5
+1 0 <= 4
+0 2 <= 12
+3 2 <= 18

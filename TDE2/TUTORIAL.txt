@@ -1,0 +1,112 @@
+====================================================================
+ TUTORIAL - Programa SIMPLEX (TDE 2 - Otimizacao de Sistemas Lineares)
+====================================================================
+
+Este programa resolve problemas de Programacao Linear pelo metodo SIMPLEX
+(forma tabular, com metodo das DUAS FASES). Foi escrito em C++ (padrao C++17).
+
+
+--------------------------------------------------------------------
+1. COMO COMPILAR
+--------------------------------------------------------------------
+No diretorio TDE2 (onde esta o Makefile), execute:
+
+    make
+
+Isso gera o executavel:  ./simplex
+Para limpar os arquivos compilados:  make clean
+
+(Caso nao tenha o 'make', compile manualmente:
+    g++ -std=c++17 -O2 -o simplex src/*.cpp)
+
+
+--------------------------------------------------------------------
+2. COMO EXECUTAR
+--------------------------------------------------------------------
+Ha duas formas de fornecer o problema (requisito: interface com o usuario):
+
+  (a) Pelo CONSOLE (digitando):
+        ./simplex
+      O programa pergunta, passo a passo: objetivo (max/min), numero de
+      variaveis, numero de restricoes, e os coeficientes.
+
+  (b) Por ARQUIVO de texto:
+        ./simplex tests/01_max_textbook.txt
+
+Opcoes adicionais:
+    --step    pausa entre cada iteracao (pressione Enter) - util na defesa
+    --quiet   nao imprime a tabela a cada iteracao (so o resultado final)
+    --help    mostra a ajuda
+
+
+--------------------------------------------------------------------
+3. FORMATO DO ARQUIVO DE ENTRADA
+--------------------------------------------------------------------
+O arquivo e texto puro. Linhas em branco sao ignoradas e tudo que vier
+depois de '#' e tratado como comentario. A ordem dos dados e:
+
+    max | min            <- objetivo
+    n  m                 <- n = numero de variaveis, m = numero de restricoes
+    c1 c2 ... cn         <- coeficientes da funcao objetivo
+    a11 a12 ... a1n  REL  b1     <- restricao 1
+    a21 a22 ... a2n  REL  b2     <- restricao 2
+    ...                          <- ... ate a restricao m
+
+Onde REL e uma das relacoes:  <=   >=   =
+(Tambem sao aceitos:  <  >  ==)
+
+Observacoes:
+  - As variaveis sao sempre x_j >= 0.
+  - O programa normaliza b negativo automaticamente (multiplica a linha por -1).
+  - Variaveis de folga (s), excesso (e) e artificiais (a) sao criadas pelo
+    proprio programa conforme o tipo de cada restricao.
+
+EXEMPLO (maximizar Z = 3*x1 + 5*x2):
+
+    max
+    2 3
+    3 5
+    1 0 <= 4
+    0 2 <= 12
+    3 2 <= 18
+
+Esse e o problema do arquivo tests/01_max_textbook.txt (otimo Z = 36).
+
+
+--------------------------------------------------------------------
+4. COMO LER A SAIDA
+--------------------------------------------------------------------
+A cada iteracao o programa imprime a TABELA SIMPLEX:
+  - a coluna "Base" mostra qual variavel e basica em cada linha;
+  - a linha "Z" e a linha objetivo (os custos reduzidos z_j - c_j);
+  - a coluna "RHS" e o lado direito (valor das variaveis basicas / valor de Z).
+  - antes de cada pivo, o programa indica qual variavel ENTRA e qual SAI.
+
+Numero de iteracoes: e mostrado no bloco final (requisito).
+
+No bloco RESULTADO aparece o STATUS, que pode ser:
+  - SOLUCAO OTIMA ENCONTRADA  -> resposta final.
+  - PROBLEMA INVIAVEL         -> nao existe solucao factivel.
+  - SEM FRONTEIRA / ILIMITADO -> Z cresce indefinidamente.
+  - INTERROMPIDO              -> limite de iteracoes (resposta intermediaria).
+
+Para qualquer status, o programa mostra o valor atual de Z e os valores das
+variaveis (deixando claro se a resposta e final ou intermediaria).
+
+Tambem sao sinalizados:
+  - [DEGENERACAO]      quando ha variavel basica nula / empate no teste da razao.
+  - [OTIMOS ALTERNADOS] quando existe mais de uma solucao otima (mostra o
+                        vertice otimo alternativo).
+
+
+--------------------------------------------------------------------
+5. EXEMPLOS PRONTOS (pasta tests/)
+--------------------------------------------------------------------
+  01_max_textbook.txt   maximizacao classica (Z = 36)
+  02_degenerate.txt     problema com degeneracao
+  03_unbounded.txt      problema sem fronteira (ilimitado)
+  04_infeasible.txt     problema inviavel
+  05_alternate_optima.txt  otimos alternados
+  06_min_twophase.txt   minimizacao pelo metodo das duas fases (PLUS)
+
+Cada arquivo tem, no comentario do topo, a resposta esperada (conferida a mao).

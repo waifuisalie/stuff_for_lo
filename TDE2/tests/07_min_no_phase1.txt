@@ -1,0 +1,10 @@
+# Caso 7: minimizacao com TODAS as restricoes <=. Nao usa Fase 1 (nao ha
+# artificiais) -- exercita o caminho min -> maximizar(-c) direto na Fase 2.
+# Como os coeficientes do objetivo sao negativos, minimizar empurra x para cima.
+# Resposta esperada (verificada a mao):
+#   Z otimo = -23,  x1 = 4,  x2 = 5
+min
+2 2
+-2 -3
+1 0 <= 4
+0 1 <= 5
