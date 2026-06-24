@@ -1,0 +1,11 @@
+# Caso 5: otimos alternados. A funcao objetivo 2x1+4x2 = 2*(x1+2x2) e paralela
+# a restricao x1+2x2 <= 5, entao toda a aresta e otima.
+# Resposta esperada (verificada a mao):
+#   Z otimo = 10
+#   Dois vertices otimos: (x1=0, x2=2.5) e (x1=3, x2=1)
+#   OTIMOS ALTERNADOS detectados (variavel nao-basica com custo reduzido = 0).
+max
+2 2
+2 4
+1 2 <= 5
+1 1 <= 4

@@ -1,0 +1,11 @@
+# Caso 6 (PLUS): minimizacao pelo metodo das DUAS FASES.
+# Usa uma restricao de igualdade (=) e uma de >=, entao a Fase 1 e obrigatoria
+# (variaveis artificiais para = e >=, variavel de excesso para >=).
+# Resposta esperada (verificada a mao):
+#   Z otimo = 9,  x1 = 3,  x2 = 1
+#   (sobre a reta x1+x2=4, Z = 8 + x2, minimo em x2=1)
+min
+2 2
+2 3
+1 1 = 4
+1 3 >= 6

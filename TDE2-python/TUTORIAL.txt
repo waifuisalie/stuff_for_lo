@@ -1,0 +1,108 @@
+====================================================================
+ TUTORIAL - Programa SIMPLEX (TDE 2) - VERSAO PYTHON
+====================================================================
+
+Este programa resolve problemas de Programacao Linear pelo metodo SIMPLEX
+(forma tabular, com metodo das DUAS FASES). Versao em Python 3 (sem
+dependencias externas - usa apenas a biblioteca padrao).
+
+
+--------------------------------------------------------------------
+1. REQUISITOS
+--------------------------------------------------------------------
+Apenas Python 3 (3.7 ou superior). Nao precisa instalar nada.
+Verifique com:   python3 --version
+
+
+--------------------------------------------------------------------
+2. COMO EXECUTAR
+--------------------------------------------------------------------
+No diretorio TDE2-python:
+
+  (a) Pelo CONSOLE (digitando):
+        python3 main.py
+      O programa pergunta, passo a passo: objetivo (max/min), numero de
+      variaveis, numero de restricoes e os coeficientes.
+
+  (b) Por ARQUIVO de texto:
+        python3 main.py tests/01_max_textbook.txt
+
+Opcoes adicionais:
+    --step    pausa entre cada iteracao (pressione Enter) - util na defesa
+    --quiet   nao imprime a tabela a cada iteracao (so o resultado final)
+    --help    mostra a ajuda
+
+
+--------------------------------------------------------------------
+3. FORMATO DO ARQUIVO DE ENTRADA
+--------------------------------------------------------------------
+Texto puro. Linhas em branco sao ignoradas e tudo apos '#' e comentario.
+A ordem dos dados e:
+
+    max | min            <- objetivo
+    n  m                 <- n = numero de variaveis, m = numero de restricoes
+    c1 c2 ... cn         <- coeficientes da funcao objetivo
+    a11 a12 ... a1n  REL  b1     <- restricao 1
+    ...                          <- ... ate a restricao m
+
+Onde REL e uma das relacoes:  <=   >=   =   (tambem aceita <  >  ==)
+
+Observacoes:
+  - As variaveis sao sempre x_j >= 0.
+  - b negativo e normalizado automaticamente (linha multiplicada por -1).
+  - Folga (s), excesso (e) e artificiais (a) sao criadas pelo programa.
+
+EXEMPLO (maximizar Z = 3*x1 + 5*x2):
+
+    max
+    2 3
+    3 5
+    1 0 <= 4
+    0 2 <= 12
+    3 2 <= 18
+
+(otimo Z = 36; arquivo tests/01_max_textbook.txt)
+
+
+--------------------------------------------------------------------
+4. COMO LER A SAIDA
+--------------------------------------------------------------------
+A cada iteracao o programa imprime a TABELA SIMPLEX:
+  - coluna "Base": variavel basica de cada linha;
+  - linha "Z": linha objetivo (custos reduzidos z_j - c_j);
+  - coluna "RHS": lado direito (valor das basicas / valor de Z);
+  - antes de cada pivo, indica qual variavel ENTRA e qual SAI.
+
+No bloco RESULTADO aparece o STATUS:
+  - SOLUCAO OTIMA ENCONTRADA  -> resposta final.
+  - PROBLEMA INVIAVEL         -> nao existe solucao factivel.
+  - SEM FRONTEIRA / ILIMITADO -> Z cresce indefinidamente.
+  - INTERROMPIDO              -> limite de iteracoes (resposta intermediaria).
+
+Para qualquer status sao mostrados o valor atual de Z e os valores das
+variaveis (indicando se a resposta e final ou intermediaria), alem de:
+  - [DEGENERACAO]       variavel basica nula / empate no teste da razao;
+  - [OTIMOS ALTERNADOS] existe outra solucao otima (mostra o vertice alt.).
+
+
+--------------------------------------------------------------------
+5. EXEMPLOS PRONTOS (pasta tests/)
+--------------------------------------------------------------------
+  01_max_textbook.txt      maximizacao classica (Z = 36)
+  02_degenerate.txt        problema com degeneracao
+  03_unbounded.txt         problema sem fronteira (ilimitado)
+  04_infeasible.txt        problema inviavel
+  05_alternate_optima.txt  otimos alternados
+  06_min_twophase.txt      minimizacao por duas fases (PLUS)
+  07_min_no_phase1.txt     minimizacao so com <= (sem Fase 1)
+
+Cada arquivo tem, no topo, a resposta esperada (conferida a mao).
+
+
+--------------------------------------------------------------------
+6. ESTRUTURA DO CODIGO
+--------------------------------------------------------------------
+  main.py         interface de linha de comando (console / arquivo)
+  lp_problem.py   modelo do problema + leitura (arquivo e console)
+  simplex.py      o motor SIMPLEX (forma padrao, Fase 1, Fase 2, acidentes)
+  reporter.py     impressao das tabelas e do resultado

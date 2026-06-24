@@ -1,0 +1,11 @@
+# Caso 2: degeneracao. Tres restricoes se encontram no vertice otimo (0,0)->(1,1),
+# entao uma variavel basica fica em zero e ha empate no teste da razao.
+# Resposta esperada (verificada a mao):
+#   Z otimo = 2,  x1 = 1,  x2 = 1
+#   DEGENERACAO detectada (uma folga basica = 0; empate no teste da razao).
+max
+2 3
+1 1
+1 0 <= 1
+0 1 <= 1
+1 1 <= 2
